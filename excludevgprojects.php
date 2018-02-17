@@ -45,4 +45,15 @@ foreach ($array_file['projects'] as $project => $dir) {
 }
 
 file_put_contents($array_file['vgfile'], $vgfile);
+file_put_contents('config.json', json_encode($array_file));
+system('vagrant halt');
+sleep(10);
+system('vgstart nop');
+sleep(30);
+foreach ($array_file['not_excluded'] as $project) {
+  $command = 'cdir vg ' . $array_file['projects'][$project];
+  system($command);
+  $command = 'cdir p ' . $array_file['projects'][$project];
+  system($command);
+}
 ?>
