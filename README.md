@@ -2,8 +2,8 @@
 This allows to you exclude projects folders to be sync.
 
 ## Instructions
-1. Create a file called *'config.json'*.
-   Here is an example of what needs to be on it.
+1. Create a file called *'config.json'*. *Here is an example of what needs to be 
+on it:*
 ```
 {
   "projects": {
@@ -20,4 +20,5 @@ This allows to you exclude projects folders to be sync.
 
 2. Execute the file with `php excludevgprojects.php`
 3. Then it will ask about the projects that you want to use.
+   
    **You must write each project with a comma and space.** like this *'pro1, pro2'*
