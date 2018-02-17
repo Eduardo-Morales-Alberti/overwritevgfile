@@ -5,8 +5,10 @@ $exclude_pro = readline("Projects to not exclude (separate it with comma): ");
 // Converting exclude projects to array.
 $array_exclude_pro = explode(', ', $exclude_pro);
 
+$actual_dir = posix_getcwd();
+
 // Obtain all projects from json file.
-$str = file_get_contents('config.json');
+$str = file_get_contents($actual_dir . '/config.json');
 
 // Converting json into array.
 $array_file = json_decode($str, TRUE);
@@ -16,15 +18,16 @@ $vgfile = file_get_contents($array_file['vgfile']);
 
 // Adding exlude projects from command line to the all projects array.
 $array_file['not_excluded'] = $array_exclude_pro;
+$projectsvg = '';
 
 // Going throught the projects.
 foreach ($array_file['projects'] as $project => $dir) {
 
   // Pattern commentted projects.
-  $commented = '# "' . $dir . '",';
+  $commented = '# "' . $dir[0] . '",';
 
   // Pattern exclude projects.
-  $excluded = '"' . $dir . '",';
+  $excluded = '"' . $dir[0] . '",';
 
   // Project is commented.
   $has_comment = preg_match('/' . $commented . '/', $vgfile);
@@ -45,15 +48,6 @@ foreach ($array_file['projects'] as $project => $dir) {
 }
 
 file_put_contents($array_file['vgfile'], $vgfile);
-file_put_contents('config.json', json_encode($array_file));
-system('vagrant halt');
-sleep(10);
-system('vgstart nop');
-sleep(30);
-foreach ($array_file['not_excluded'] as $project) {
-  $command = 'cdir vg ' . $array_file['projects'][$project];
-  system($command);
-  $command = 'cdir p ' . $array_file['projects'][$project];
-  system($command);
-}
+file_put_contents($actual_dir . '/config.json', json_encode($array_file));
+
 ?>
