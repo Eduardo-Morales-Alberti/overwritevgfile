@@ -1,0 +1,3 @@
+[submodule "scripts-linux"]
+	path = scripts-linux
+	url = git@github.com:Eduardomoberti/scripts-linux.git
