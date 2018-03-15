@@ -1,9 +1,4 @@
 <?php
-// Obtain from command line projects to exclude.
-$exclude_pro = readline("Projects to not exclude (separate it with comma): ");
-
-// Converting exclude projects to array.
-$array_exclude_pro = explode(', ', $exclude_pro);
 
 $actual_dir = posix_getcwd();
 
@@ -12,6 +7,18 @@ $str = file_get_contents($actual_dir . '/config.json');
 
 // Converting json into array.
 $array_file = json_decode($str, TRUE);
+
+$keys = array_keys($array_file['projects']);
+
+$options = implode(" / ", $keys);
+shell_exec('echo ');
+$message = "Projects available: " . $options . " (separate it with comma to not exclude): ";
+
+// Obtain from command line projects to exclude.
+$exclude_pro = readline($message);
+
+// Converting exclude projects to array.
+$array_exclude_pro = explode(', ', $exclude_pro);
 
 // Obtain vagrant file.
 $vgfile = file_get_contents($array_file['vgfile']);
